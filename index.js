@@ -10,6 +10,8 @@
 import express from "express"
 import { MongoClient } from "mongodb"
 import dotenv from "dotenv"
+import { getMovieById, createMovies, getMovies } from "./movieFunctions.js";
+import { moviesRouter } from "./routes/movies.js"
 
 // getting all env keys
 dotenv.config();
@@ -34,64 +36,71 @@ async function createConnection() {
     return client
 }
 // await without async allowed only in type module
-const client = await createConnection()
+export const client = await createConnection()
 
 
 app.get('/', (req, res) => {
     res.send('Hello World')
 })
 
-app.get('/movies', async (req, res) => {
-    console.log(req.query)
-    const filter = req.query
-    if (filter.rating) {
-        filter.rating = +filter.rating
-    }
-    // d.movies.find({language:"tamil"}) 
-    // find returns cursor --> toArray
-    const movie = await client.db("b251we").collection("movies").find(filter).toArray()
-    console.log(movie)
-    movie ? res.send(movie) : res.status(404).send({ msg: "Movie not found" })
 
 
-    // const filtreredMovies = movies;
-    // const { language, rating } = req.query;
-    // // if both language and rating is given
-    // if ((language && rating) && res.send(filtreredMovies.filter(mv => mv.language === language).filter(mv => mv.rating == rating))) return
-    // // only language
-    // if (language && res.send(filtreredMovies.filter(mv => mv.language === language))) return
-    // // only rating
-    // if (rating && res.send(filtreredMovies.filter(mv => mv.rating === +rating))) return
-    // // no rating or language
-    // if ((!language && !rating) && res.send(filtreredMovies)) return
-})
-
-app.get('/movies/:id', async (req, res) => {
-
-    const { id } = req.params
-
-    // db.movies.findOne({"id":"105"})
-    const movie = await client.db("b251we").collection("movies").findOne({ "id": id })
-    console.log(movie)
-    movie ? res.send(movie) : res.status(404).send({ msg: "Movie not found" })
+app.use("/movies", moviesRouter)
+// express router middleware
 
 
-    // const [result] = movies.filter(movie => movie.id === id)
-    // res.send(movies.find(movie => movie.id === id))
-    // result ? res.send(result) : res.send({ msg: "Movie not found" })
-    // console.log(id)
-})
-
-app.post("/movies", async (req, res) => {
-
-    const data = req.body
-    console.log(data)
-
-    // db.movies.insertMany(data)
-    const movie = await client.db("b251we").collection("movies").insertMany(data)
-    res.send()
-})
 
 // port
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log("The server is started", PORT))
+
+
+
+// app.get('/movies', async (req, res) => {
+//     console.log(req.query)
+//     const filter = req.query
+//     if (filter.rating) {
+//         filter.rating = +filter.rating
+//     }
+
+//     const movie = await getMovies(filter)
+//     console.log(movie)
+//     movie ? res.send(movie) : res.status(404).send({ msg: "Movie not found" })
+
+//     // const filtreredMovies = movies;
+//     // const { language, rating } = req.query;
+//     // // if both language and rating is given
+//     // if ((language && rating) && res.send(filtreredMovies.filter(mv => mv.language === language).filter(mv => mv.rating == rating))) return
+//     // // only language
+//     // if (language && res.send(filtreredMovies.filter(mv => mv.language === language))) return
+//     // // only rating
+//     // if (rating && res.send(filtreredMovies.filter(mv => mv.rating === +rating))) return
+//     // // no rating or language
+//     // if ((!language && !rating) && res.send(filtreredMovies)) return
+// })
+
+// app.get('/movies/:id', async (req, res) => {
+
+//     const { id } = req.params
+
+
+//     const movie = await getMovieById(id)
+//     console.log(movie)
+//     movie ? res.send(movie) : res.status(404).send({ msg: "Movie not found" })
+
+
+//     // const [result] = movies.filter(movie => movie.id === id)
+//     // res.send(movies.find(movie => movie.id === id))
+//     // result ? res.send(result) : res.send({ msg: "Movie not found" })
+//     // console.log(id)
+// })
+
+// app.post("/movies", async (req, res) => {
+
+//     const data = req.body
+//     console.log(data)
+
+
+//     const movie = await createMovies(data)
+//     res.send(movie)
+// })
