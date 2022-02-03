@@ -38,7 +38,7 @@ const client = await createConnection()
 
 
 app.get('/', (req, res) => {
-    res.send('Hello World!!!*********')
+    res.send('Hello World')
 })
 
 app.get('/movies', async (req, res) => {
