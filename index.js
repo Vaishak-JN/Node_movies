@@ -14,7 +14,7 @@ import dotenv from "dotenv"
 // getting all env keys
 dotenv.config();
 
-console.log(process.env)
+// console.log(process.env)
 
 const app = express()
 
@@ -93,5 +93,5 @@ app.post("/movies", async (req, res) => {
 })
 
 // port
-const PORT = 9000
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log("The server is started", PORT))
