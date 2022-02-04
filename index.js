@@ -12,6 +12,9 @@ import { MongoClient } from "mongodb"
 import dotenv from "dotenv"
 import { getMovieById, createMovies, getMovies } from "./movieFunctions.js";
 import { moviesRouter } from "./routes/movies.js"
+import { usersRouter } from "./routes/users.js"
+import bcrypt from "bcrypt"
+
 
 // getting all env keys
 dotenv.config();
@@ -28,7 +31,6 @@ app.use(express.json())
 // const MONGO_URL = "mongodb://localhost"
 const MONGO_URL = process.env.MONGO_URL;
 
-
 async function createConnection() {
     const client = new MongoClient(MONGO_URL)
     await client.connect()
@@ -38,16 +40,14 @@ async function createConnection() {
 // await without async allowed only in type module
 export const client = await createConnection()
 
-
 app.get('/', (req, res) => {
     res.send('Hello World')
 })
 
-
-
 app.use("/movies", moviesRouter)
 // express router middleware
 
+app.use("/users", usersRouter)
 
 
 // port

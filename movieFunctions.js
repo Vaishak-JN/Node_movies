@@ -1,4 +1,5 @@
 import { client } from "./index.js";
+import bcrypt from "bcrypt"
 
 async function getMovies(filter) {
     // d.movies.find({language:"tamil"})
@@ -10,7 +11,22 @@ async function createMovies(data) {
     // db.movies.insertMany(data)
     return await client.db("b251we").collection("movies").insertMany(data);
 }
+async function genPassword(password) {
+    // 10 rounds of salting
+    const salt = await bcrypt.genSalt(10)
+    console.log(salt)
+    const hashedPassword = await bcrypt.hash(password, salt)
+    return hashedPassword
+}
+async function getUserByName(username) {
+    // db.movies.findOne({"id":"105"})
+    return client.db("b251we").collection("users").findOne({ username: username });
+}
+async function createUser(data) {
+    // db.users.insertMany(data)
+    return await client.db("b251we").collection("users").insertOne(data)
 
+}
 async function getMovieById(id) {
     // db.movies.findOne({"id":"105"})
     return client.db("b251we").collection("movies").findOne({ "id": id });
@@ -27,4 +43,4 @@ async function updateMovieById(id, updatedMovie) {
 }
 
 
-export { getMovieById, createMovies, getMovies, deleteMovieById, updateMovieById };
+export { getMovieById, createMovies, getMovies, deleteMovieById, updateMovieById, createUser, genPassword, getUserByName };
