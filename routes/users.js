@@ -53,6 +53,7 @@ router
             // issue token
             const token = jwt.sign({ id: userFromDb._id }, process.env.SECRET_KEY)
             res.send({ message: "Successful Login", token: token })
+
         } else {
             res.status(401).send({ message: "Invalid credentials" })
             return

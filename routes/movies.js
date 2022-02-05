@@ -6,14 +6,14 @@ const router = express.Router()
 
 router
     .route('/')
-    .get(auth, async (req, res) => {
+    .get(async (req, res) => {
         console.log(req.query)
         const filter = req.query
         if (filter.rating) {
             filter.rating = +filter.rating
         }
         const movie = await getMovies(filter)
-        console.log(movie)
+        // console.log(movie)
         movie ? res.send(movie) : res.status(404).send({ msg: "Movie not found" })
     })
     .post(async (req, res) => {
@@ -25,7 +25,7 @@ router
 
 router
     .route("/:id")
-    .get(auth, async (req, res) => {
+    .get(async (req, res) => {
         const { id } = req.params
         const movie = await getMovieById(id)
         console.log(movie)
