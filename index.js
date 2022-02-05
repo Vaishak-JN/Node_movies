@@ -14,7 +14,7 @@ import { getMovieById, createMovies, getMovies } from "./movieFunctions.js";
 import { moviesRouter } from "./routes/movies.js"
 import { usersRouter } from "./routes/users.js"
 import bcrypt from "bcrypt"
-
+import cors from "cors"
 
 // getting all env keys
 dotenv.config();
@@ -22,6 +22,9 @@ dotenv.config();
 // console.log(process.env)
 
 const app = express()
+
+
+app.use(cors())
 
 // middleware
 // app.use --> intercept every request
