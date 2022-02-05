@@ -29,17 +29,17 @@ async function createUser(data) {
 }
 async function getMovieById(id) {
     // db.movies.findOne({"id":"105"})
-    return client.db("b251we").collection("movies").findOne({ "_id": id });
+    return client.db("b251we").collection("movies").findOne({ "id": id });
 }
 
 async function deleteMovieById(id) {
     // db.movies.deleteOne({"id":"105"})
-    return client.db("b251we").collection("movies").deleteOne({ "_id": id });
+    return client.db("b251we").collection("movies").deleteOne({ "id": id });
 }
 
 async function updateMovieById(id, updatedMovie) {
     // db.movies.updateOne({"id":"105"},{$set:updatedMovie})
-    return client.db("b251we").collection("movies").updateOne({ "_id": id }, { $set: updatedMovie });
+    return client.db("b251we").collection("movies").updateOne({ "id": id }, { $set: updatedMovie });
 }
 
 
