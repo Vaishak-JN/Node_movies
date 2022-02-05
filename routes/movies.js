@@ -1,11 +1,12 @@
 import express from "express"
 import { getMovieById, createMovies, getMovies, deleteMovieById, updateMovieById } from "../movieFunctions.js";
+import { auth } from "../middleware/auth.js";
 
 const router = express.Router()
 
 router
     .route('/')
-    .get(async (req, res) => {
+    .get(auth, async (req, res) => {
         console.log(req.query)
         const filter = req.query
         if (filter.rating) {
@@ -24,7 +25,7 @@ router
 
 router
     .route("/:id")
-    .get(async (req, res) => {
+    .get(auth, async (req, res) => {
         const { id } = req.params
         const movie = await getMovieById(id)
         console.log(movie)
