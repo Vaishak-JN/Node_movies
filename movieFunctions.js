@@ -1,5 +1,6 @@
 import { client } from "./index.js";
 import bcrypt from "bcrypt"
+import { ObjectId } from "mongodb";
 
 async function getMovies(filter) {
     // d.movies.find({language:"tamil"})
@@ -29,17 +30,17 @@ async function createUser(data) {
 }
 async function getMovieById(id) {
     // db.movies.findOne({"id":"105"})
-    return client.db("b251we").collection("movies").findOne({ "id": id });
+    return client.db("b251we").collection("movies").findOne({ "_id": ObjectId(id) });
 }
 
 async function deleteMovieById(id) {
     // db.movies.deleteOne({"id":"105"})
-    return client.db("b251we").collection("movies").deleteOne({ "id": id });
+    return client.db("b251we").collection("movies").deleteOne({ "_id": ObjectId(id) });
 }
 
 async function updateMovieById(id, updatedMovie) {
     // db.movies.updateOne({"id":"105"},{$set:updatedMovie})
-    return client.db("b251we").collection("movies").updateOne({ "id": id }, { $set: updatedMovie });
+    return client.db("b251we").collection("movies").updateOne({ "_id": ObjectId(id) }, { $set: updatedMovie });
 }
 
 
